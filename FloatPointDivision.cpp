@@ -21,7 +21,7 @@ void descomponerFloat(float numero, int &signo, int &exponente, unsigned int &si
     exponente = (bits >> 23) & 0xFF;           // Extraer el exponente
     significando = bits & 0x7FFFFF;            // Extraer el significando (23 bits)
 
-    if (exponente != 0) {                      // Si no es anormal, añadir el bit implícito
+    if (exponente != 0) {                      // Si no es anormal, añadir el bit implicito
         significando |= (1 << 23);
     }
 }
@@ -37,10 +37,10 @@ void imprimirBits(float valor) {
     std::cout << "Significando: " << std::bitset<23>(significando) << std::endl;
 }
 
-// División de numeros en formato IEEE 754
+// Division de numeros en formato IEEE 754
 float divisionPuntoFlotante(float X, float Y) {
     if (Y == 0.0f) {
-        return INFINITY; // División por cero
+        return INFINITY; // Division por cero
     } else if (X == 0) {
         return 0.0f; // Si el numerador es 0
     }
@@ -56,17 +56,17 @@ float divisionPuntoFlotante(float X, float Y) {
 
     if (exponenteZ >= 255) {
         std::cout << "Overflow del exponente." << std::endl;
-        return INFINITY; //Solo se usa el <cmath> para el infinito
+        return INFINITY;
     } else if (exponenteZ <= 0) {
         std::cout << "Underflow del exponente." << std::endl;
         return 0.0f;
     }
 
-    // Escalar los significandos para la división
+    // Escalar los significandos para la division
     unsigned long long significandoEscalado = static_cast<unsigned long long>(significandoX) << 23;
     unsigned int significandoZ = significandoEscalado / significandoY;
 
-    // Normalizar si el 25vo bit está activado
+    // Normalizar si el 25vo bit esta activado
     if (significandoZ & (1 << 24)) {
         significandoZ >>= 1; // Ajustar significando
         exponenteZ++;        // Incrementar exponente
@@ -95,7 +95,7 @@ int main() {
     imprimirBits(Z);
     std::cout << "Resultado en decimal: " << Z << std::endl;
 
-    // Division directa en C++
+    // Division directa
     float resultadoDirecto = X / Y;
     std::cout << "\nDivision directa usando C++:" << std::endl;
     std::cout << "Resultado de la division directa en bits:" << std::endl;
